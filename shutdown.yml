@@ -1,0 +1,11 @@
+---
+- hosts:  ['tower']
+  become: true
+  remote_user:  root
+
+  tasks:
+  - name: Stop Service httpd on tower
+    service:
+      name: httpd
+      state:  stopped
+      enabled:  yes

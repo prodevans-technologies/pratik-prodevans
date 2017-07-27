@@ -1,0 +1,19 @@
+---
+- hosts: serverb
+  become: true
+  remote_user:  root
+  tasks:
+    - name: Create a file at /var/www/html/tag1.html
+      copy:
+        dest: /var/www/html/tag1.html
+        content:  "I am tag1"
+      tags:  tag1 
+- hosts:  tower
+  become: true
+  remote_user: root
+  tasks:
+    - name: Create a file at /var/www/html/tag2.html
+      copy:
+        dest: /var/www/html/tag2.html
+        content:  "I am tag2"
+      tags: tag2

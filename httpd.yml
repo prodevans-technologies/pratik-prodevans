@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: True
+  remote_user: root
+
+  tasks:
+  - name: Install httpd service
+    yum:
+      name: httpd
+      state:  latest
+  - name: Copy configuration file 
+    get_url:
+      url:  http://rhgls/httpd.conf.template 
+      dest: /etc/http/conf/httpd.conf
+  - name: Change /var/www/html/index.html
+    lineinfile:
+      dest: /var/www/html/index.html
+      line: "Hello from nodeX"
+  - name: Start the service
+    service:
+      name: httpd
+      state: started
+      enabled: yes

@@ -1,0 +1,38 @@
+---
+- hosts:  all
+  remote_user: root
+  become: True
+
+  tasks:
+  - name: Create /var/www/html/private directory
+    file:
+      path: /var/www/html/private
+      state: directory
+
+  - name: Copy the http://rhgls/htaccess-custom /var/www/html/private/.htaccess
+    get_url:
+      url:  http://rhgls/htaccess-custom 
+      dest: /var/www/html/private/.htaccess
+      owner: apache
+      group:  apache
+      mode: 0755
+
+  - name: Copy http://rhgls/htpasswd file /var/www/html/private/.htpasswd
+    get_url:
+      url: http://rhgls/htpasswd 
+      dest: /var/www/html/private/.htpasswd
+      owner:  apache
+      group:  apache
+      mode: 0755
+
+  - name: Repalce all Instances 
+    replace:
+      dest: /etc/httpd/conf/httpd.conf
+      regexp: '^AllowOverride None'
+      replace: ' AllowOverride AuthConfig'
+
+  - name: Create /var/www/html/private/index.html 
+    copy: 
+      dest: /var/www/html/private/index.html 
+      content: "This node nodeX is private"
+      mode: 0755

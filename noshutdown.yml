@@ -1,0 +1,14 @@
+---
+- hosts:  all
+  become: true
+  remote_user:  root
+  tasks:
+    - name: Start httpd service on all nodes
+      yum:
+        name: httpd
+        state:  latest
+    - name: Start the service
+      service:
+        name: httpd
+        state: started
+        enabled:  yes

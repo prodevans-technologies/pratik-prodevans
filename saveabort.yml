@@ -1,0 +1,10 @@
+---
+- hosts:  ['serverb', 'tower']
+  become: true
+  remote_user:  root
+
+  tasks:
+    - name: Create a file /etc/saveabort.txt 
+      copy:
+  
+
