@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: True
+  remote_user: root
+  tasks:
+    - name: Install httpd Service
+      yum:
+        name: httpd
+        state: latest
+    - name: Download index.html 
+      get_url: 
+        url: http://works.example.local/index.html 
+        dest: /var/www/html/index.html
+    - name: Start httpd Service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+      notify: start httpd
+
+    - name: Firewall
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+
+  handlers:
+    - name: start httpd
+      service:
+        name: httpd

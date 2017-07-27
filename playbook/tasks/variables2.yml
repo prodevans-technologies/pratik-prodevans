@@ -1,0 +1,14 @@
+---
+- hosts: all
+  remote_user: root
+
+
+- name: Install postfix
+  yum:
+    name: postfix
+    state: latest
+
+  tags:
+    - server
+
+

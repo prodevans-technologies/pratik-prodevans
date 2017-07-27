@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: true
+  remote_user: root
+  tasks:
+    - name: install httpd
+      yum: name=httpd state=latest
+    - name: install firewalld
+      yum: name=firewalld state=latest
+    - name: enable services
+      service: name=httpd state=started enabled=yes
+    - name: 
+      service: name=firewalld state=started enabled=yes
+    - name: allow httpd
+      firewalld:
+        service: name=http state=enabled permanent=true immediate=yes
+    - name: create page
+      copy:
+        content: "welocome to prodevans.com"
+        dest: /var/www/html/index.html

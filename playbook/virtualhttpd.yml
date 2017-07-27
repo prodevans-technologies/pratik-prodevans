@@ -1,0 +1,13 @@
+---
+- hosts: all
+  remote_user: root
+  become: True
+  tasks:
+    - name: Install httpd service on servera
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Create the custome webpage
+      copy:
+        

@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: True
+  remote_user: root
+  tasks:
+    - name: Install httpd service
+      yum:
+        name: httpd
+        state: latest
+    - name: Start the service
+      service:
+        name: httpd
+        state: started
+
+    - name: create the custom pages
+      copy:
+        dest: /var/www/html/index.html
+        content: "Create by ansible"
+
+    - name: Add rule to firewall
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
